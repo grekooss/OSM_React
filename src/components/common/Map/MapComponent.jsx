@@ -3,6 +3,15 @@ import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from 'axios';
 
+const parseCoordinates = (point) => {
+  const matches = point.match(/POINT\(([^)]+)\)/);
+  if (matches && matches[1]) {
+    const [lon, lat] = matches[1].split(' ').map(Number);
+    return [lat, lon];
+  }
+  return null;
+};
+
 const MapComponent = ({ center, zoom }) => {
   const [points, setPoints] = useState([]);
   const [editingPoint, setEditingPoint] = useState(null);
@@ -16,10 +25,7 @@ const MapComponent = ({ center, zoom }) => {
         setPoints(
           response.data.map((point) => ({
             id: point.osm_id,
-            position: point.way_center_point_wkt
-              .match(/POINT\(([^)]+)\)/)[1]
-              .split(' ')
-              .map((coord) => parseFloat(coord)),
+            position: parseCoordinates(point.way_center_point_wkt),
             sport: point.sport || 'Unknown Sport',
             leisure: point.leisure || 'Unknown Leisure',
           })),
