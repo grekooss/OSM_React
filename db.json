@@ -1,16 +1,16 @@
 {
   "plays": [
     {
-      "osm_id": 888005864,
+      "id": 888005864,
       "amenity": null,
       "landuse": null,
-      "leisure": "pitch",
-      "sport": "skateboard",
+      "leisure": "pitch546",
+      "sport": "skateboard964456",
       "name": null,
       "way_center_point_wkt": "POINT(21.121078550000746 52.29101894914576)"
     },
     {
-      "osm_id": 437865509,
+      "id": 437865509,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -19,7 +19,7 @@
       "way_center_point_wkt": "POINT(20.92313677231468 52.39448265216197)"
     },
     {
-      "osm_id": 47193435,
+      "id": 47193435,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -28,7 +28,7 @@
       "way_center_point_wkt": "POINT(20.984268948583903 52.276398456114514)"
     },
     {
-      "osm_id": 491345058,
+      "id": 491345058,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -37,7 +37,7 @@
       "way_center_point_wkt": "POINT(20.978800803837863 52.28057581034944)"
     },
     {
-      "osm_id": 370483402,
+      "id": 370483402,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -46,7 +46,7 @@
       "way_center_point_wkt": "POINT(20.95452983321751 52.2739815236563)"
     },
     {
-      "osm_id": -13117564,
+      "id": -13117564,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -55,7 +55,7 @@
       "way_center_point_wkt": "POINT(20.95417763938184 52.27365912847397)"
     },
     {
-      "osm_id": 590275797,
+      "id": 590275797,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -64,7 +64,7 @@
       "way_center_point_wkt": "POINT(22.081266267015128 53.164382374570394)"
     },
     {
-      "osm_id": 119797316,
+      "id": 119797316,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -73,7 +73,7 @@
       "way_center_point_wkt": "POINT(20.939534822396443 52.32468719694684)"
     },
     {
-      "osm_id": 291509141,
+      "id": 291509141,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -82,7 +82,7 @@
       "way_center_point_wkt": "POINT(22.06788169210956 53.160467567766496)"
     },
     {
-      "osm_id": 499162722,
+      "id": 499162722,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -91,7 +91,7 @@
       "way_center_point_wkt": "POINT(21.925735296199512 53.409515544335825)"
     },
     {
-      "osm_id": 839975970,
+      "id": 839975970,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -100,7 +100,7 @@
       "way_center_point_wkt": "POINT(18.64514010000323 54.364973649260214)"
     },
     {
-      "osm_id": 958482205,
+      "id": 958482205,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -109,7 +109,7 @@
       "way_center_point_wkt": "POINT(18.898234332470984 49.72655001394681)"
     },
     {
-      "osm_id": 132340873,
+      "id": 132340873,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -118,7 +118,7 @@
       "way_center_point_wkt": "POINT(18.603518303170876 54.413890853255396)"
     },
     {
-      "osm_id": 1058638183,
+      "id": 1058638183,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -127,7 +127,7 @@
       "way_center_point_wkt": "POINT(20.159278907477972 51.65101740412169)"
     },
     {
-      "osm_id": 1068577069,
+      "id": 1068577069,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -136,7 +136,7 @@
       "way_center_point_wkt": "POINT(20.03181553144209 51.711352427681426)"
     },
     {
-      "osm_id": 549186910,
+      "id": 549186910,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -145,7 +145,7 @@
       "way_center_point_wkt": "POINT(20.696027800094907 52.12525879947031)"
     },
     {
-      "osm_id": 312246305,
+      "id": 312246305,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -154,7 +154,7 @@
       "way_center_point_wkt": "POINT(21.459940873525778 50.290329702555844)"
     },
     {
-      "osm_id": 287903363,
+      "id": 287903363,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -163,7 +163,7 @@
       "way_center_point_wkt": "POINT(21.665531900050006 50.57375539959267)"
     },
     {
-      "osm_id": 1080136853,
+      "id": 1080136853,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -172,7 +172,7 @@
       "way_center_point_wkt": "POINT(21.771683508561306 50.24573056557679)"
     },
     {
-      "osm_id": 965136535,
+      "id": 965136535,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -181,7 +181,7 @@
       "way_center_point_wkt": "POINT(22.1694736338952 50.51345466634539)"
     },
     {
-      "osm_id": 823047070,
+      "id": 823047070,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -190,7 +190,7 @@
       "way_center_point_wkt": "POINT(22.3296984796539 50.10025854456158)"
     },
     {
-      "osm_id": 415865305,
+      "id": 415865305,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -199,7 +199,7 @@
       "way_center_point_wkt": "POINT(22.240170106898287 50.06675251771416)"
     },
     {
-      "osm_id": 393201840,
+      "id": 393201840,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",
@@ -208,7 +208,7 @@
       "way_center_point_wkt": "POINT(22.51795634766745 49.90462927422572)"
     },
     {
-      "osm_id": 712719303,
+      "id": 712719303,
       "amenity": null,
       "landuse": null,
       "leisure": "pitch",

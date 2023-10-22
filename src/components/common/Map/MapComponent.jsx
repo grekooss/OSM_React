@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import EditPoint from '../EditPoint/EditPoint';
 import axios from 'axios';
 
 const parseCoordinates = (point) => {
@@ -14,6 +15,9 @@ const parseCoordinates = (point) => {
 
 const MapComponent = ({ center, zoom }) => {
   const [points, setPoints] = useState([]);
+  const [selectedPoint, setSelectedPoint] = useState(null);
+
+  console.log(points);
 
   const fetchPoints = () => {
     axios
@@ -21,7 +25,7 @@ const MapComponent = ({ center, zoom }) => {
       .then((response) => {
         setPoints(
           response.data.map((point) => ({
-            id: point.osm_id,
+            id: point.id,
             position: parseCoordinates(point.way_center_point_wkt),
             sport: point.sport || 'Unknown Sport',
             leisure: point.leisure || 'Unknown Leisure',
@@ -48,6 +52,36 @@ const MapComponent = ({ center, zoom }) => {
     markerRefs.current[index].closePopup();
   };
 
+  const handleEdit = (index) => {
+    setSelectedPoint(points[index]);
+  };
+
+  const handleSaveEdit = (newSport, newLeisure) => {
+    const updatedPoints = points.map((point) =>
+      point.id === selectedPoint.id
+        ? {
+            ...point,
+            sport: newSport || 'Unknown Sport',
+            leisure: newLeisure || 'Unknown Leisure',
+          }
+        : point,
+    );
+
+    setPoints(updatedPoints);
+    setSelectedPoint(null);
+  };
+
+  const handleCancelEdit = () => {
+    setSelectedPoint(null);
+  };
+
+  const handleDeletePoint = () => {
+    setPoints((prevPoints) =>
+      prevPoints.filter((point) => point.id !== selectedPoint.id),
+    );
+    setSelectedPoint(null);
+  };
+
   return (
     <div>
       <MapContainer
@@ -67,12 +101,37 @@ const MapComponent = ({ center, zoom }) => {
             eventHandlers={{
               mouseover: () => handleMouseOver(index),
               mouseout: () => handleMouseOut(index),
-              click: () => handleMouseOver(index), // You can modify this if you want different behavior on click
+              click: () => handleEdit(index),
             }}
           >
-            <Popup>{point.name}</Popup>
+            <Popup>
+              <div>
+                <p>{point.name}</p>
+                <p>Sport: {point.sport}</p>
+                <p>Leisure: {point.leisure}</p>
+              </div>
+            </Popup>
           </Marker>
         ))}
+        {selectedPoint && (
+          <Marker position={selectedPoint.position}>
+            <Popup>
+              <div>
+                <p>{selectedPoint.name}</p>
+                <EditPoint
+                  initialSport={selectedPoint.sport}
+                  initialLeisure={selectedPoint.leisure}
+                  onSave={(newSport, newLeisure) =>
+                    handleSaveEdit(newSport, newLeisure)
+                  }
+                  onCancel={handleCancelEdit}
+                  pointId={selectedPoint.id}
+                  onDelete={handleDeletePoint}
+                />
+              </div>
+            </Popup>
+          </Marker>
+        )}
       </MapContainer>
     </div>
   );
