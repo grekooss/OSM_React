@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import EditPoint from '../EditPoint/EditPoint';
+import NewPoint from '../NewPoint/NewPoint';
 import axios from 'axios';
 
 const parseCoordinates = (point) => {
@@ -82,6 +83,10 @@ const MapComponent = ({ center, zoom }) => {
     setSelectedPoint(null);
   };
 
+  const handleAddPoint = (newPoint) => {
+    setPoints((prevPoints) => [...prevPoints, newPoint]);
+  };
+
   return (
     <div>
       <MapContainer
@@ -89,10 +94,12 @@ const MapComponent = ({ center, zoom }) => {
         zoom={zoom}
         style={{ height: '100vh', width: '100vw' }}
       >
+        <NewPoint onAddPoint={handleAddPoint} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
+
         {points.map((point, index) => (
           <Marker
             key={index}

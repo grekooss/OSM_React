@@ -29,8 +29,7 @@ const EditPoint = ({
   const handleDelete = async () => {
     try {
       await axios.delete(`${API_URL}${ROUTE_PLAY}/${pointId}`);
-      console.log('Marker deleted.');
-      onDelete(); // Update the state to trigger re-render
+      onDelete();
     } catch (error) {
       console.error('Error deleting marker:', error);
     }
