@@ -215,6 +215,96 @@
       "sport": "skateboard",
       "name": null,
       "way_center_point_wkt": "POINT(20.080698600047914 49.88188519974082)"
+    },
+    {
+      "osm_id": 204019377,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": "Orlik",
+      "way_center_point_wkt": "POINT(15.819627699998643 51.120021150072276)"
+    },
+    {
+      "osm_id": 599894584,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": "LKS Fenix Pielgrzymka",
+      "way_center_point_wkt": "POINT(15.820604735708278 51.11914726726499)"
+    },
+    {
+      "osm_id": 288718667,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(21.047954937055394 52.154443094368446)"
+    },
+    {
+      "osm_id": 857460176,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "stadium",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(19.66654673077114 50.11078575045655)"
+    },
+    {
+      "osm_id": 257262212,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(19.66646573000743 50.11071276448588)"
+    },
+    {
+      "osm_id": 594033991,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(15.681558518181246 51.31941490108329)"
+    },
+    {
+      "osm_id": 143296090,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(15.610780400021058 50.84834399963194)"
+    },
+    {
+      "osm_id": 485637929,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(15.528727715172765 51.265301956847786)"
+    },
+    {
+      "osm_id": 354085804,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(15.533562250156848 51.238821800821384)"
+    },
+    {
+      "osm_id": 243838613,
+      "amenity": null,
+      "landuse": null,
+      "leisure": "pitch",
+      "sport": "soccer",
+      "name": null,
+      "way_center_point_wkt": "POINT(22.868116750097975 52.43397069932863)"
     }
   ]
 }

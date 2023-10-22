@@ -1,9 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import EditPoint from '../EditPoint/EditPoint';
 import NewPoint from '../NewPoint/NewPoint';
+import MapIcon from '../MapIcon/MapIcon';
 import axios from 'axios';
+
+import mapIconSoccer from '../../../../public/vite.svg';
+import mapIconSkateboard from '../../../../public/vite.svg';
 
 const parseCoordinates = (point) => {
   const matches = point.match(/POINT\(([^)]+)\)/);
@@ -20,9 +24,10 @@ const MapComponent = ({ center, zoom }) => {
 
   console.log(points);
 
-  const fetchPoints = () => {
+  const fetchPoints = (sportParam) => {
+    const params = sportParam ? { sport: sportParam } : {};
     axios
-      .get(`${API_URL}${ROUTE_PLAY}/`)
+      .get(`${API_URL}${ROUTE_PLAY}/`, { params })
       .then((response) => {
         setPoints(
           response.data.map((point) => ({
@@ -38,10 +43,6 @@ const MapComponent = ({ center, zoom }) => {
         console.error('Error fetching points:', error);
       });
   };
-
-  useEffect(() => {
-    fetchPoints();
-  }, []);
 
   const markerRefs = useRef([]);
 
@@ -87,6 +88,10 @@ const MapComponent = ({ center, zoom }) => {
     setPoints((prevPoints) => [...prevPoints, newPoint]);
   };
 
+  const handleIconClick = (sportParam) => {
+    fetchPoints(sportParam);
+  };
+
   return (
     <div>
       <MapContainer
@@ -99,7 +104,18 @@ const MapComponent = ({ center, zoom }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-
+        <MapIcon
+          iconSrc={mapIconSoccer}
+          onClick={() => handleIconClick('soccer')}
+          sportParam="soccer"
+          posRight={'40px'}
+        />
+        <MapIcon
+          iconSrc={mapIconSkateboard}
+          onClick={() => handleIconClick('skateboard')}
+          sportParam="skateboard"
+          posRight={'80px'}
+        />
         {points.map((point, index) => (
           <Marker
             key={index}
