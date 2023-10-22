@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from 'axios';
@@ -14,9 +14,6 @@ const parseCoordinates = (point) => {
 
 const MapComponent = ({ center, zoom }) => {
   const [points, setPoints] = useState([]);
-  const [editingPoint, setEditingPoint] = useState(null);
-  const [editedSport, setEditedSport] = useState('');
-  const [editedLeisure, setEditedLeisure] = useState('');
 
   const fetchPoints = () => {
     axios
@@ -28,6 +25,7 @@ const MapComponent = ({ center, zoom }) => {
             position: parseCoordinates(point.way_center_point_wkt),
             sport: point.sport || 'Unknown Sport',
             leisure: point.leisure || 'Unknown Leisure',
+            name: point.name || 'Unknown Name',
           })),
         );
       })
@@ -40,51 +38,14 @@ const MapComponent = ({ center, zoom }) => {
     fetchPoints();
   }, []);
 
-  const handleEditClick = (point) => {
-    setEditingPoint(point.id);
-    setEditedSport(point.sport);
-    setEditedLeisure(point.leisure);
+  const markerRefs = useRef([]);
+
+  const handleMouseOver = (index) => {
+    markerRefs.current[index].openPopup();
   };
 
-  const handleSaveClick = () => {
-    const updatedPoints = points.map((point) =>
-      point.id === editingPoint
-        ? { ...point, sport: editedSport, leisure: editedLeisure }
-        : point,
-    );
-
-    axios
-      .put(`${API_URL}${ROUTE_PLAY}/${editingPoint}`, {
-        sport: editedSport,
-        leisure: editedLeisure,
-      })
-      .then((response) => {
-        console.log('Point updated successfully:', response.data);
-        setPoints(updatedPoints);
-      })
-      .catch((error) => {
-        console.error('Error updating point:', error);
-      });
-
-    setEditingPoint(null);
-  };
-
-  const handleCancelClick = () => {
-    setEditingPoint(null);
-  };
-
-  const handleDeleteClick = (pointId) => {
-    axios
-      .delete(`${API_URL}${ROUTE_PLAY}/${pointId}`)
-      .then((response) => {
-        console.log('Point deleted successfully:', response.data);
-        setPoints((prevPoints) =>
-          prevPoints.filter((point) => point.id !== pointId),
-        );
-      })
-      .catch((error) => {
-        console.error('Error deleting point:', error);
-      });
+  const handleMouseOut = (index) => {
+    markerRefs.current[index].closePopup();
   };
 
   return (
@@ -99,44 +60,17 @@ const MapComponent = ({ center, zoom }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {points.map((point, index) => (
-          <Marker key={index} position={point.position}>
-            <Popup>
-              {editingPoint === point.id ? (
-                <div>
-                  <label>
-                    Sport:
-                    <input
-                      type="text"
-                      value={editedSport}
-                      onChange={(e) => setEditedSport(e.target.value)}
-                    />
-                  </label>
-                  <br />
-                  <label>
-                    Leisure:
-                    <input
-                      type="text"
-                      value={editedLeisure}
-                      onChange={(e) => setEditedLeisure(e.target.value)}
-                    />
-                  </label>
-                  <br />
-                  <button onClick={handleSaveClick}>Save</button>
-                  <button onClick={handleCancelClick}>Cancel</button>
-                </div>
-              ) : (
-                <div>
-                  <p>{`Sport: ${point.sport}`}</p>
-                  <p>{`Leisure: ${point.leisure}`}</p>
-                  <button onClick={() => handleEditClick(point)}>
-                    Edit Point
-                  </button>
-                  <button onClick={() => handleDeleteClick(point.id)}>
-                    Delete Point
-                  </button>
-                </div>
-              )}
-            </Popup>
+          <Marker
+            key={index}
+            position={point.position}
+            ref={(ref) => (markerRefs.current[index] = ref)}
+            eventHandlers={{
+              mouseover: () => handleMouseOver(index),
+              mouseout: () => handleMouseOut(index),
+              click: () => handleMouseOver(index), // You can modify this if you want different behavior on click
+            }}
+          >
+            <Popup>{point.name}</Popup>
           </Marker>
         ))}
       </MapContainer>
