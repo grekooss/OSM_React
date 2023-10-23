@@ -9,15 +9,6 @@ import axios from 'axios';
 import mapIconSoccer from '../../../../public/vite.svg';
 import mapIconSkateboard from '../../../../public/vite.svg';
 
-const parseCoordinates = (point) => {
-  const matches = point.match(/POINT\(([^)]+)\)/);
-  if (matches && matches[1]) {
-    const [lon, lat] = matches[1].split(' ').map(Number);
-    return [lat, lon];
-  }
-  return null;
-};
-
 const MapComponent = ({ center, zoom }) => {
   const [points, setPoints] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
@@ -42,6 +33,15 @@ const MapComponent = ({ center, zoom }) => {
       .catch((error) => {
         console.error('Error fetching points:', error);
       });
+  };
+
+  const parseCoordinates = (point) => {
+    const matches = point.match(/POINT\(([^)]+)\)/);
+    if (matches && matches[1]) {
+      const [lon, lat] = matches[1].split(' ').map(Number);
+      return [lat, lon];
+    }
+    return null;
   };
 
   const markerRefs = useRef([]);
