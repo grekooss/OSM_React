@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react';
-import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import axios from 'axios';
+import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import EditPoint from '../EditPoint/EditPoint';
 import NewPoint from '../NewPoint/NewPoint';
 import MapIcon from '../MapIcon/MapIcon';
-import axios from 'axios';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 
 import mapIconSoccer from '../../../../public/vite.svg';
 import mapIconSkateboard from '../../../../public/vite.svg';
@@ -12,8 +13,7 @@ import mapIconSkateboard from '../../../../public/vite.svg';
 const MapComponent = ({ center, zoom }) => {
   const [points, setPoints] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
-
-  console.log(points);
+  const markerRefs = useRef([]);
 
   const fetchPoints = (sportParam) => {
     const params = sportParam ? { sport: sportParam } : {};
@@ -43,8 +43,6 @@ const MapComponent = ({ center, zoom }) => {
     }
     return null;
   };
-
-  const markerRefs = useRef([]);
 
   const handleMouseOver = (index) => {
     markerRefs.current[index].openPopup();
@@ -99,43 +97,34 @@ const MapComponent = ({ center, zoom }) => {
         zoom={zoom}
         style={{ height: '100vh', width: '100vw' }}
       >
-        <NewPoint onAddPoint={handleAddPoint} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <MapIcon
-          iconSrc={mapIconSoccer}
-          onClick={() => handleIconClick('soccer')}
-          sportParam="soccer"
-          posRight={'40px'}
-        />
-        <MapIcon
-          iconSrc={mapIconSkateboard}
-          onClick={() => handleIconClick('skateboard')}
-          sportParam="skateboard"
-          posRight={'80px'}
-        />
-        {points.map((point, index) => (
-          <Marker
-            key={index}
-            position={point.position}
-            ref={(ref) => (markerRefs.current[index] = ref)}
-            eventHandlers={{
-              mouseover: () => handleMouseOver(index),
-              mouseout: () => handleMouseOut(index),
-              click: () => handleEdit(index),
-            }}
-          >
-            <Popup>
-              <div>
-                <p>{point.name}</p>
-                <p>Sport: {point.sport}</p>
-                <p>Leisure: {point.leisure}</p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+
+        <MarkerClusterGroup>
+          {points.map((point, index) => (
+            <Marker
+              key={index}
+              position={point.position}
+              ref={(ref) => (markerRefs.current[index] = ref)}
+              eventHandlers={{
+                mouseover: () => handleMouseOver(index),
+                mouseout: () => handleMouseOut(index),
+                click: () => handleEdit(index),
+              }}
+            >
+              <Popup>
+                <div>
+                  <p>{point.name}</p>
+                  <p>Sport: {point.sport}</p>
+                  <p>Leisure: {point.leisure}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
+
         {selectedPoint && (
           <Marker position={selectedPoint.position}>
             <Popup>
@@ -155,6 +144,19 @@ const MapComponent = ({ center, zoom }) => {
             </Popup>
           </Marker>
         )}
+        <NewPoint onAddPoint={handleAddPoint} />
+        <MapIcon
+          iconSrc={mapIconSoccer}
+          onClick={() => handleIconClick('soccer')}
+          sportParam="soccer"
+          posRight={'40px'}
+        />
+        <MapIcon
+          iconSrc={mapIconSkateboard}
+          onClick={() => handleIconClick('skateboard')}
+          sportParam="skateboard"
+          posRight={'80px'}
+        />
       </MapContainer>
     </div>
   );
