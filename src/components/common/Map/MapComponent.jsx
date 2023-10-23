@@ -1,28 +1,24 @@
-import { useEffect, useState, useRef } from 'react';
-import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
+import { useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import axios from 'axios';
+import { API_URL, ROUTE_PLAY } from '../../../routes/Routes';
 import EditPoint from '../EditPoint/EditPoint';
 import NewPoint from '../NewPoint/NewPoint';
-import axios from 'axios';
+import MapIcon from '../MapIcon/MapIcon';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 
-const parseCoordinates = (point) => {
-  const matches = point.match(/POINT\(([^)]+)\)/);
-  if (matches && matches[1]) {
-    const [lon, lat] = matches[1].split(' ').map(Number);
-    return [lat, lon];
-  }
-  return null;
-};
+import mapIconSoccer from '../../../../public/vite.svg';
+import mapIconSkateboard from '../../../../public/vite.svg';
 
 const MapComponent = ({ center, zoom }) => {
   const [points, setPoints] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
+  const markerRefs = useRef([]);
 
-  console.log(points);
-
-  const fetchPoints = () => {
+  const fetchPoints = (sportParam) => {
+    const params = sportParam ? { sport: sportParam } : {};
     axios
-      .get(`${API_URL}${ROUTE_PLAY}/`)
+      .get(`${API_URL}${ROUTE_PLAY}/`, { params })
       .then((response) => {
         setPoints(
           response.data.map((point) => ({
@@ -39,11 +35,14 @@ const MapComponent = ({ center, zoom }) => {
       });
   };
 
-  useEffect(() => {
-    fetchPoints();
-  }, []);
-
-  const markerRefs = useRef([]);
+  const parseCoordinates = (point) => {
+    const matches = point.match(/POINT\(([^)]+)\)/);
+    if (matches && matches[1]) {
+      const [lon, lat] = matches[1].split(' ').map(Number);
+      return [lat, lon];
+    }
+    return null;
+  };
 
   const handleMouseOver = (index) => {
     markerRefs.current[index].openPopup();
@@ -87,6 +86,10 @@ const MapComponent = ({ center, zoom }) => {
     setPoints((prevPoints) => [...prevPoints, newPoint]);
   };
 
+  const handleIconClick = (sportParam) => {
+    fetchPoints(sportParam);
+  };
+
   return (
     <div>
       <MapContainer
@@ -94,32 +97,34 @@ const MapComponent = ({ center, zoom }) => {
         zoom={zoom}
         style={{ height: '100vh', width: '100vw' }}
       >
-        <NewPoint onAddPoint={handleAddPoint} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        {points.map((point, index) => (
-          <Marker
-            key={index}
-            position={point.position}
-            ref={(ref) => (markerRefs.current[index] = ref)}
-            eventHandlers={{
-              mouseover: () => handleMouseOver(index),
-              mouseout: () => handleMouseOut(index),
-              click: () => handleEdit(index),
-            }}
-          >
-            <Popup>
-              <div>
-                <p>{point.name}</p>
-                <p>Sport: {point.sport}</p>
-                <p>Leisure: {point.leisure}</p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+        <MarkerClusterGroup>
+          {points.map((point, index) => (
+            <Marker
+              key={index}
+              position={point.position}
+              ref={(ref) => (markerRefs.current[index] = ref)}
+              eventHandlers={{
+                mouseover: () => handleMouseOver(index),
+                mouseout: () => handleMouseOut(index),
+                click: () => handleEdit(index),
+              }}
+            >
+              <Popup>
+                <div>
+                  <p>{point.name}</p>
+                  <p>Sport: {point.sport}</p>
+                  <p>Leisure: {point.leisure}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
+
         {selectedPoint && (
           <Marker position={selectedPoint.position}>
             <Popup>
@@ -139,6 +144,19 @@ const MapComponent = ({ center, zoom }) => {
             </Popup>
           </Marker>
         )}
+        <NewPoint onAddPoint={handleAddPoint} />
+        <MapIcon
+          iconSrc={mapIconSoccer}
+          onClick={() => handleIconClick('soccer')}
+          sportParam="soccer"
+          posRight={'40px'}
+        />
+        <MapIcon
+          iconSrc={mapIconSkateboard}
+          onClick={() => handleIconClick('skateboard')}
+          sportParam="skateboard"
+          posRight={'80px'}
+        />
       </MapContainer>
     </div>
   );
